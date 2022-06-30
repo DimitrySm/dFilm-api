@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from "@nestjs/sequelize";
-import { Film } from './films.model';
+import { FilmModel } from './films.model';
 
 @Injectable()
 export class FilmsService {
 
-    constructor(@InjectModel(Film) private filmsRepository: typeof Film) { }
+    constructor(@InjectModel(FilmModel) private filmsRepository: typeof FilmModel) { }
 }

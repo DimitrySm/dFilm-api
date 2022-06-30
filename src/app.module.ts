@@ -8,15 +8,10 @@ import { ServeStaticModule } from "@nestjs/serve-static";
 import * as path from 'path';
 import { FilmsModule } from "./films/films.module";
 import { FavouritesModule } from "./favourites/favourites.module";
+import { SeederModule } from 'nestjs-sequelize-seeder';
 
 @Module({
     imports: [
-        ConfigModule.forRoot({
-            envFilePath: `.${process.env.NODE_ENV}.env`
-        }),
-        ServeStaticModule.forRoot({
-            rootPath: path.resolve(__dirname, 'static'),
-        }),
         SequelizeModule.forRoot({
             dialect: 'postgres',
             host: process.env.POSTGRES_HOST,
@@ -26,6 +21,10 @@ import { FavouritesModule } from "./favourites/favourites.module";
             database: process.env.POSTGRES_DB,
             models: [User],
             autoLoadModels: true
+        }),
+        SeederModule.forRoot({
+            runOnlyIfTableIsEmpty: true,
+            foreignDelay: 2000, // 2 seconds
         }),
         UsersModule,
         AuthModule,
