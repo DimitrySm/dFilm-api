@@ -41,4 +41,8 @@ export class AuthService {
         }
         throw new UnauthorizedException({ message: 'Incorrect email or password' })
     }
+
+    async logout() {
+
+    }
 }
