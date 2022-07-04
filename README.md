@@ -8,3 +8,4 @@
 
 ## Step 3
 ### `npx sequelize-cli db:seed:all`
+### If seeder doesn't run, run `npm install`, than `npx sequelize-cli db:seed:all`
