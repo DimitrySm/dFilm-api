@@ -1,5 +1,5 @@
-import { BelongsTo, Column, DataType, ForeignKey, Model, Table } from "sequelize-typescript";
-import { FilmModel } from "src/films/films.model";
+import { Column, DataType, ForeignKey, Model, Table } from "sequelize-typescript";
+import { Film } from "src/films/films.model";
 import { User } from "src/users/users.model";
 
 @Table({ tableName: 'favourites' })
@@ -11,7 +11,7 @@ export class Favourites extends Model<Favourites> {
     @Column({type: DataType.INTEGER})
     userId: number;
 
-    @ForeignKey(() => FilmModel)
+    @ForeignKey(() => Film)
     @Column({type: DataType.INTEGER})
     filmId: number;
 

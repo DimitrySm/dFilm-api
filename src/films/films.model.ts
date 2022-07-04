@@ -1,7 +1,7 @@
 import { Column, DataType, Model, Table } from "sequelize-typescript";
 
 @Table({ tableName: 'films' })
-export class FilmModel extends Model<FilmModel> {
+export class Film extends Model implements Film {
     @Column({ type: DataType.INTEGER, unique: true, autoIncrement: true, primaryKey: true })
     id: number;
 

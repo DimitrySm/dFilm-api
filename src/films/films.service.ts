@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from "@nestjs/sequelize";
-import { FilmModel } from './films.model';
+import sequelize, { QueryTypes } from 'sequelize';
+import { PageMetaDto } from 'src/pagination/dto/page-meta.dto';
+import { PageOptionsDto } from 'src/pagination/dto/page-option.dto';
+import { PageDto } from 'src/pagination/dto/page.dto';
+import { Film } from './films.model';
 
 @Injectable()
-export class FilmsService {
-
-    constructor(@InjectModel(FilmModel) private filmsRepository: typeof FilmModel) { }
-}
+export class FilmsService {}
