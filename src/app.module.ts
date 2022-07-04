@@ -4,10 +4,8 @@ import { UsersModule } from './users/users.module';
 import { User } from "./users/users.model";
 import { AuthModule } from './auth/auth.module';
 import { FilmsModule } from "./films/films.module";
-import { FavouritesModule } from "./favourites/favourites.module";
 import { SeederModule } from 'nestjs-sequelize-seeder';
 import { Film } from "./films/films.model";
-import { Favourites } from "./favourites/favourites.model";
 
 @Module({
     imports: [
@@ -18,7 +16,7 @@ import { Favourites } from "./favourites/favourites.model";
             username: process.env.POSTGRES_USER,
             password: process.env.POSTGRESS_PASSWORD,
             database: process.env.POSTGRES_DB,
-            models: [User, Film, Favourites],
+            models: [User, Film],
             autoLoadModels: true
         }),
         SeederModule.forRoot({
@@ -27,7 +25,6 @@ import { Favourites } from "./favourites/favourites.model";
         UsersModule,
         AuthModule,
         FilmsModule,
-        FavouritesModule,
     ]
 })
 export class AppModule { }

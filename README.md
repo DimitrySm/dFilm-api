@@ -1,9 +1,7 @@
-## Не забудь звезду
+# Getting Started with App
 
-в файле .env конфигурация для бд. Добавить свою.
+## Step 1
+### `docker-compose build`
 
-#### npm run start:dev - Запуск
-
-##
-
-#### docker-compose up 
+## Step 2
+### `npx sequelize-cli db:seed:all`

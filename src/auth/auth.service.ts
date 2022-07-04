@@ -8,12 +8,19 @@ import { User } from "../users/users.model";
 @Injectable()
 export class AuthService {
 
-    constructor(private userService: UsersService,
-        private jwtService: JwtService) { }
+    constructor(
+        private userService: UsersService,
+        private jwtService: JwtService
+    ) { }
 
     async login(userDto: CreateUserDto) {
         const user = await this.validateUser(userDto)
-        return this.generateToken(user)
+        const token = await this.generateToken(user)
+
+        return {
+            token,
+            user,
+        }
     }
 
     async registration(userDto: CreateUserDto) {
@@ -23,14 +30,17 @@ export class AuthService {
         }
         const hashPassword = await bcrypt.hash(userDto.password, 5);
         const user = await this.userService.createUser({ ...userDto, password: hashPassword })
-        return this.generateToken(user)
+        const token = await this.generateToken(user)
+
+        return {
+            token,
+            user,
+        }
     }
 
     private async generateToken(user: User) {
         const payload = { email: user.email, id: user.id }
-        return {
-            token: this.jwtService.sign(payload)
-        }
+        return this.jwtService.sign(payload)
     }
 
     private async validateUser(userDto: CreateUserDto) {
@@ -40,9 +50,5 @@ export class AuthService {
             return user;
         }
         throw new UnauthorizedException({ message: 'Incorrect email or password' })
-    }
-
-    async logout() {
-
     }
 }

@@ -1,32 +1,36 @@
 import { ApiTags } from "@nestjs/swagger";
-import { FilmsService } from './films.service';
-import { Controller, Get, Res, HttpStatus, Param, Req, Query } from '@nestjs/common';
-import { Response } from 'express';
+import { Controller, Get, Request, Query } from '@nestjs/common';
 import { Film } from "./films.model";
+import { FilmsService } from "./films.service";
+
+export type GetFilmsResponseType = {
+  totalPages: any,
+  films: Film[]
+}
+
+export type GetFilmsQueryType = {
+  page: string,
+  size: string,
+  search: string,
+}
 
 @ApiTags('Films')
 @Controller('films')
 export class FilmsController {
+  constructor(private filmsService: FilmsService) { }
+
   @Get()
-  async getFilms(@Query() query): Promise<any> {
-
-    const pageAsNumber = Number.parseInt(query.page)
-    const sizeAsNumber = Number.parseInt(query.size)
-
-    let page = 0
-    if (!Number.isNaN(pageAsNumber) && pageAsNumber > 0) {
-      page = pageAsNumber - 1
-    }
-
-    let size = 12
-    if (!Number.isNaN(sizeAsNumber) && sizeAsNumber > 0 && sizeAsNumber < 12) {
-      size = sizeAsNumber
-    }
-
-    const filmsCount = await Film.count()
-    return {
-      totalPages: Math.ceil(+filmsCount / size),
-      films: await Film.findAll({limit: size, offset: size * page})
-    }
+  async getFilms(@Query() query: GetFilmsQueryType): Promise<GetFilmsResponseType> {
+    return await this.filmsService.getFilms(query)
   }
+
+  @Get('/:id')
+  async getFilmById(@Request() req): Promise<Film> {
+    return await this.filmsService.getFilmById(req.params.id)
+  }
+
+  // @Get('/favourites/:userId')
+  // async getFavouritesFilmsByUserId(@Request() req): Promise<any> {
+  //   return await this.filmsService.getFavouritesFilmsByUserId(req.params.userId)
+  // }
 }
